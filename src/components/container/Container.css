@@ -1,0 +1,7 @@
+@reference "./../../index.css";
+
+@layer components {
+  .container-card {
+    @apply bg-cyan-800 text-cyan-50;
+  }
+}

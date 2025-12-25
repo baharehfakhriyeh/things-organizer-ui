@@ -1,0 +1,7 @@
+@reference "./../../index.css";
+
+@layer components {
+  .thing-card {
+    @apply bg-amber-500 text-black;
+  }
+}
