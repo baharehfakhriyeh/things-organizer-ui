@@ -3,7 +3,7 @@ import { useAuth } from "../security/AuthContext";
 import type { Container } from "../../types/containerTypes";
 import ContainerPlanItem from "./ContainerPlanItem";
 import { ContainerService } from "../../services/ContainerService";
-import "./../../app.css";
+
 import "./Container.css";
 
 type ContainerPlanPropsTyps = {
@@ -24,20 +24,12 @@ const ContainerPlan = ({ parentId }: ContainerPlanPropsTyps) => {
 
   const existContainer = () => containers.length > 0;
 
-  const onDropHandler = (draggedContainerId: number, newParentId: number) => {
-    setContainers((prev) =>
-      prev.map((container) =>
-        container.id === draggedContainerId ? { ...container, parentId: newParentId } : container
-      )
-    );
-  };
-
   return (
     <>
       {existContainer() && (
         <div className="component-flex-list">
           {containers.map((container) => (
-            <ContainerPlanItem container={container} onDropHandler={onDropHandler}></ContainerPlanItem>
+            <ContainerPlanItem container={container}></ContainerPlanItem>
           ))}
         </div>
       )}

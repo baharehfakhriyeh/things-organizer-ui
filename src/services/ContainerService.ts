@@ -1,18 +1,70 @@
 import Keycloak from "keycloak-js";
-import { httpClient } from "./ApiBase";
-import type { Container, GetContainerPlanRequestType } from "../types/containerTypes";
+import { httpClient, sseClient, wsClient } from "./ApiBase";
+import type {
+  Container,
+  FeatureType,
+  GeometryType,
+  NullableId,
+  UpdateContainerLocationReponseType,
+  UpdateContainerLocationRequestType,
+} from "../types/containerTypes";
 import { ApiUri } from "./ApiUri";
-
 
 export const ContainerService = {
   getContainerList: async (keycloak: Keycloak) => {
-    return await httpClient.get<Container[]>(ApiUri.container.getContainerList, keycloak);
+    return await httpClient.get<Container[]>(
+      ApiUri.container.getContainerList,
+      keycloak
+    );
   },
-  getContainerPlan: async(id: number | null, keycloak: Keycloak)=>{
-     const body: GetContainerPlanRequestType  = {
-      id: id
-    }
-    return await httpClient.post<Container[], GetContainerPlanRequestType>(ApiUri.container.getContainerPlan, body, keycloak);
-  }
+  getContainerPlan: async (id: number | null, keycloak: Keycloak) => {
+    const body: NullableId = {
+      id: id,
+    };
+    return await httpClient.post<Container[], NullableId>(
+      ApiUri.container.getContainerPlan,
+      body,
+      keycloak
+    );
+  },
+  updateContainerLocation: async (
+    id: number,
+    geometry: GeometryType,
+    keycloak: Keycloak
+  ) => {
+    const body: UpdateContainerLocationRequestType = {
+      containerId: id,
+      geometry: geometry,
+    };
+    return await httpClient.put<
+      UpdateContainerLocationReponseType,
+      UpdateContainerLocationRequestType
+    >(ApiUri.container.updateContainerLocation, body, keycloak);
+  },
+  getContainersInArea: async (
+    area: GeometryType,
+    keycloak: Keycloak,
+    callback: (data: FeatureType[]) => void
+  ) => {
+    const ws = wsClient.connectStream(
+      ApiUri.container.getContainersInAreaStream,
+      keycloak,
+      callback
+    );
 
+    ws.send(area);
+  },
+  getContainersByParentId: async (
+    parentId: number,
+    keycloak: Keycloak,
+  ) => {
+    const body: NullableId = {
+      id: parentId,
+    };
+    return await httpClient.post<Container[], NullableId>(
+      ApiUri.container.getContainersByParentId,
+      body,
+      keycloak
+    );
+  },
 };
