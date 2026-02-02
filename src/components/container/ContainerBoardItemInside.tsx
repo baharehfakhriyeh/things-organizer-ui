@@ -4,17 +4,17 @@ import ContainerItemItems from "./ContainerItemItems";
 import type {
   Container,
 } from "../../types/containerTypes";
-import ViewMap from "./ViewMap";
+import ViewOutdoorMap from "./ViewOutdoorMap";
 
-type ContainerPlanItemInsideProps = {
+type ContainerBoardItemInsideProps = {
   container: Container;
   showInsideHandler: () => void;
 };
 
-const ContainerPlanItemInside = ({
+const ContainerBoardItemInside = ({
   container,
   showInsideHandler,
-}: ContainerPlanItemInsideProps) => {
+}: ContainerBoardItemInsideProps) => {
   const [showEditLocation, setShowEditLocation] = useState<boolean>(false);
 
   const setLocationHandler = () => {
@@ -34,11 +34,11 @@ const ContainerPlanItemInside = ({
       )}
       {showEditLocation && (
         <>
-          <ViewMap />
+          <ViewOutdoorMap />
         </>
       )}
     </>
   );
 };
 
-export default ContainerPlanItemInside;
+export default ContainerBoardItemInside;

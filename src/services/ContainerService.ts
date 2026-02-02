@@ -17,12 +17,12 @@ export const ContainerService = {
       keycloak
     );
   },
-  getContainerPlan: async (id: number | null, keycloak: Keycloak) => {
+  getContainersByParentId: async (id: number | null, keycloak: Keycloak) => {
     const body: NullableId = {
       id: id,
     };
     return await httpClient.post<Container[], NullableId>(
-      ApiUri.container.getContainerPlan,
+      ApiUri.container.getContainersByParentId,
       body,
       keycloak
     );
@@ -41,10 +41,10 @@ export const ContainerService = {
       UpdateContainerLocationRequestType
     >(ApiUri.container.updateContainerLocation, body, keycloak);
   },
-  getContainersInArea: async (
+  getContainersLocationInArea: async (
     area: GeometryType,
     keycloak: Keycloak,
-    callback: (data: FeatureType[]) => void
+    callback: (data: FeatureType) => void
   ) => {
     const ws = wsClient.connectStream(
       ApiUri.container.getContainersInAreaStream,
@@ -54,17 +54,20 @@ export const ContainerService = {
 
     ws.send(area);
   },
-  getContainersByParentId: async (
+  getContainersLocationByParentId: async (
     parentId: number,
     keycloak: Keycloak,
+    callback: (data: FeatureType) => void
   ) => {
-    const body: NullableId = {
-      id: parentId,
-    };
-    return await httpClient.post<Container[], NullableId>(
-      ApiUri.container.getContainersByParentId,
-      body,
-      keycloak
+    const body:NullableId = {
+          id: parentId,
+        }
+    const ws = wsClient.connectStream(
+      ApiUri.container.getContainersLocationByParentId,
+      keycloak,
+      callback
     );
+
+    ws.send(body);
   },
 };

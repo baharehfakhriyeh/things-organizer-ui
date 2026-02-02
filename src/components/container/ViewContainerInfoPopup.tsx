@@ -1,14 +1,18 @@
-import React from "react";
 import { Popup } from "react-leaflet";
-import type { FeatureType } from "../../types/containerTypes";
-import { formatWithOptions } from "util";
+import {type FeatureType } from "../../types/containerTypes";
+import useViewMap from "./context/ParentContainerContext";
+import { useContext } from "react";
+import ParentContainerContext from "./context/ParentContainerContext";
 
 type ViewContainerInfoPopupProps = {
   feature: FeatureType;
 }
 const ViewContainerInfoPopup = ({feature}: ViewContainerInfoPopupProps) => {
+ // const parentId: unknown = feature?.properties.get("id");
+  const parentContainerIdContext = useContext(ParentContainerContext);
   const showInsideHandler = () =>{
-    
+    console.log("go inside clicked");
+    parentContainerIdContext.parentContainerHandler(10);
   }
   return (
     <Popup>
@@ -24,7 +28,7 @@ const ViewContainerInfoPopup = ({feature}: ViewContainerInfoPopupProps) => {
         </p>
 
         <p className="mt-2">{feature.timestamp}</p>
-        <button onClick={showInsideHandler}>Show inside</button>
+        <button onClick={showInsideHandler}>Go inside</button>
       </div>
     </Popup>
   );

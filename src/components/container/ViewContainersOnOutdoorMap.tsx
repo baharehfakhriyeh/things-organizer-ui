@@ -1,15 +1,14 @@
 import { useMap } from "react-leaflet";
-import type { FeatureType, PolygonGeometry } from "../../types/containerTypes";
+import type { FeatureType, NullableId, PolygonGeometry } from "../../types/containerTypes";
 import { useEffect } from "react";
 import { ContainerService } from "../../services/ContainerService";
 import keycloak from "../security/keycloak";
 
-type ViewContainersOnMapProps = {
-  parentId?: number | null,
+type ViewContainersOnOutdoorMapProps = {
   setFeatures: React.Dispatch<React.SetStateAction<FeatureType[]>>
 }
 
-const ViewContainersOnMap = ({parentId, setFeatures}:ViewContainersOnMapProps) =>{
+const ViewContainersOnOutdoorMap = ({setFeatures}:ViewContainersOnOutdoorMapProps) =>{
   const map = useMap();
 
   useEffect(() => {
@@ -32,6 +31,7 @@ const ViewContainersOnMap = ({parentId, setFeatures}:ViewContainersOnMapProps) =
       };
 
       const callbackFunction = (data: FeatureType) => {
+        console.log(data);
         setFeatures((prev)=> {
           if(prev.some(item=> item.id === data.id)){
             return [...prev]
@@ -41,12 +41,7 @@ const ViewContainersOnMap = ({parentId, setFeatures}:ViewContainersOnMapProps) =
         console.log(data);
       };
       
-      if(parentId == null){
-        ContainerService.getContainersInArea(area, keycloak, callbackFunction);
-      }else{
-        ContainerService.getContainersByParentId(parentId, keycloak);
-      }
-      
+      ContainerService.getContainersLocationInArea(area, keycloak, callbackFunction);
     }
 
     map.on("moveend", handleMove);
@@ -58,4 +53,4 @@ const ViewContainersOnMap = ({parentId, setFeatures}:ViewContainersOnMapProps) =
   return null;
 };
 
-export default ViewContainersOnMap;
+export default ViewContainersOnOutdoorMap;

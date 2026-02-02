@@ -1,7 +1,7 @@
 import React from "react";
 import { FaAnglesUp } from "react-icons/fa6";
 import ThingList from "../thing/ThingList";
-import ContainerPlan from "./ContainerPlan";
+import ContainerBoard from "./ContainerBoard";
 import type { Container } from "../../types/containerTypes";
 
 type ContainerItemItemsProps = {
@@ -15,7 +15,7 @@ const ContainerItemItems = ({
 }: ContainerItemItemsProps) => {
   return (
     <>
-      <ContainerPlan parentId={container.id} />
+      <ContainerBoard parentId={container.id} />
       <ThingList containerId={container.id} />
 
       <button

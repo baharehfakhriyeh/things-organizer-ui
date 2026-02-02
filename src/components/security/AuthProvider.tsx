@@ -1,8 +1,8 @@
-import { ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import keycloak from "./keycloak";
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children: ReactNode;
 }
 

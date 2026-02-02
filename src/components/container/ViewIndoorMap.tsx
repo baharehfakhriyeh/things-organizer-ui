@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { MapContainer, SVGOverlay } from 'react-leaflet'
 import type { FeatureType } from '../../types/containerTypes';
-import ViewContainersOnMap from './ViewContainersOnMap';
+import ViewContainersOnOutdoorMap from './ViewContainersOnOutdoorMap';
 import ViewContainerMarkersOnMap from './ViewContainerMarkersOnMap';
+import ViewContainersOnIndoorMap from './ViewContainersOnIndoorMap';
 
 type ViewInsideProps = {
     containerId: number
 }
-const ViewInside = ({containerId}:ViewInsideProps) => {
+const ViewIndoorMap = ({containerId}:ViewInsideProps) => {
     const [features, setFeatures] = useState<FeatureType[]>([]);
       const centerGeometry: [number, number] = [35.71, 51.35]; //todo: get current location as center
   return (
@@ -19,7 +20,7 @@ const ViewInside = ({containerId}:ViewInsideProps) => {
         className="w-full h-[600px] rounded-lg border border-gray-300 shadow-md"
       >
         {/* <SVGOverlay bounds={}></SVGOverlay> */}
-        <ViewContainersOnMap parentId={containerId} setFeatures={setFeatures} />
+        <ViewContainersOnIndoorMap parentId={containerId} setFeatures={setFeatures} />
         <ViewContainerMarkersOnMap features={features}/>
       </MapContainer>
       <div>Container count: {features.length}</div>
@@ -27,4 +28,4 @@ const ViewInside = ({containerId}:ViewInsideProps) => {
   )
 }
 
-export default ViewInside
+export default ViewIndoorMap

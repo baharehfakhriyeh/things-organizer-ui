@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../security/AuthContext";
 import type { Container } from "../../types/containerTypes";
-import ContainerPlanItem from "./ContainerPlanItem";
+import ContainerBoardItem from "./ContainerBoardItem";
 import { ContainerService } from "../../services/ContainerService";
 
 import "./Container.css";
 
-type ContainerPlanPropsTyps = {
+type ContainerBoardPropsTyps = {
   parentId: number | null;
 };
 
-const ContainerPlan = ({ parentId }: ContainerPlanPropsTyps) => {
+const ContainerBoard = ({ parentId }: ContainerBoardPropsTyps) => {
   const { keycloak } = useAuth();
   const [containers, setContainers] = useState<Container[]>([]);
   useEffect(() => {
     const loadContainers = async () => {
       setContainers(
-        await ContainerService.getContainerPlan(parentId, keycloak)
+        await ContainerService.getContainersByParentId(parentId, keycloak)
       );
     };
     loadContainers();
@@ -29,7 +29,7 @@ const ContainerPlan = ({ parentId }: ContainerPlanPropsTyps) => {
       {existContainer() && (
         <div className="component-flex-list">
           {containers.map((container) => (
-            <ContainerPlanItem container={container}></ContainerPlanItem>
+            <ContainerBoardItem container={container}></ContainerBoardItem>
           ))}
         </div>
       )}
@@ -37,4 +37,4 @@ const ContainerPlan = ({ parentId }: ContainerPlanPropsTyps) => {
   );
 };
 
-export default ContainerPlan;
+export default ContainerBoard;

@@ -1,19 +1,19 @@
 import { useState } from "react";
 import type { Container } from "../../types/containerTypes";
-import ContainerPlan from "./ContainerPlan";
+import ContainerBoard from "./ContainerBoard";
 import { FaAnglesDown, FaAnglesUp, FaEarthAsia } from "react-icons/fa6";
 import "./../../app.css";
 import "./Container.css";
 import ThingList from "../thing/ThingList";
 import { MdOutlineAddLocationAlt } from "react-icons/md";
-import ViewContainersOnMap from "./ViewContainersOnMap";
+import ViewContainersOnOutdoorMap from "./ViewContainersOnOutdoorMap";
 import ContainerItemItems from "./ContainerItemItems";
-import ContainerPlanItemInside from "./ContainerPlanItemInside";
+import ContainerBoardItemInside from "./ContainerBoardItemInside";
 
-type ContainerPlanItemProps = {
+type ContainerBoardItemProps = {
   container: Container;
 };
-const ContainerPlanItem = ({ container }: ContainerPlanItemProps) => {
+const ContainerBoardItem = ({ container }: ContainerBoardItemProps) => {
   const [showInside, setShowInside] = useState<boolean>(false);
   const showInsideHandler = () => {
     setShowInside(!showInside);
@@ -35,12 +35,12 @@ const ContainerPlanItem = ({ container }: ContainerPlanItemProps) => {
       </div>
 
       {showInside && (
-        <ContainerPlanItemInside key={container.id} container={container} showInsideHandler={showInsideHandler} />
+        <ContainerBoardItemInside key={container.id} container={container} showInsideHandler={showInsideHandler} />
       )}
     </div>
   );
 };
 
-export default ContainerPlanItem;
+export default ContainerBoardItem;
 
 
